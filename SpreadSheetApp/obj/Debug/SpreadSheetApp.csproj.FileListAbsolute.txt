@@ -1,0 +1,7 @@
+D:\repositories\SpreadSheetApp\SpreadSheetApp\bin\Debug\SpreadSheetApp.exe.config
+D:\repositories\SpreadSheetApp\SpreadSheetApp\bin\Debug\SpreadSheetApp.exe
+D:\repositories\SpreadSheetApp\SpreadSheetApp\bin\Debug\SpreadSheetApp.pdb
+D:\repositories\SpreadSheetApp\SpreadSheetApp\obj\Debug\SpreadSheetApp.csprojAssemblyReference.cache
+D:\repositories\SpreadSheetApp\SpreadSheetApp\obj\Debug\SpreadSheetApp.csproj.CoreCompileInputs.cache
+D:\repositories\SpreadSheetApp\SpreadSheetApp\obj\Debug\SpreadSheetApp.exe
+D:\repositories\SpreadSheetApp\SpreadSheetApp\obj\Debug\SpreadSheetApp.pdb
