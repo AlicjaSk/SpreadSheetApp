@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +15,6 @@ namespace SpreadSheetApp
         private const char InputSeparator = '|';
         private readonly SpreadSheet _spreadSheet;
     
-
         public UserMenu()
         {
             this._spreadSheet = new SpreadSheet();
@@ -36,7 +36,21 @@ namespace SpreadSheetApp
                 else if (line == "SHOW")
                     _spreadSheet.ShowSpreadSheet();
                 else
-                    _spreadSheet.AppendNewRow(GetArguments(line));
+                {
+                    PassNewValuesToSpreadSheet(line);
+                }
+            }
+        }
+
+        private void PassNewValuesToSpreadSheet(string line)
+        {
+            try
+            {
+                _spreadSheet.AppendNewRow(GetArguments(line));
+            }
+            catch (ValidationException ex)
+            {
+                Console.WriteLine(ex.Message);
             }
         }
 
@@ -44,7 +58,5 @@ namespace SpreadSheetApp
         {
             return line.EndsWith(EndOfSheet) ? true : false;
         }
-
-  
     }
 }

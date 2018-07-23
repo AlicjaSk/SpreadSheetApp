@@ -37,41 +37,7 @@ namespace SpreadSheetApp
                     AppendNewArgumentToNotation(stack.Pop());
                 }
             }
-
             stack.Push(newOper);
-        }
-
-        private char[] GetOperators(string equation)
-        {
-            var operators = "";
-            foreach (var o in equation)
-            {
-                if (_supportedOperators.Keys.Any(x => x == o))
-                    operators += o;
-            }
-
-            var operArray = operators.ToCharArray();
-            return operArray;
-        }
-
-        private List<string> GetVariables(string equation)
-        {
-            var variables = equation.Split(_supportedOperators.Keys.ToArray());
-            ReplaceVariables(ref variables);
-            return new List<string>(variables);
-        }
-
-        private void ReplaceVariables(ref string [] variables)
-        {
-            double result;
-            for (var i = 0; i < variables.Length; i++)
-            {
-                var v = variables[i];
-                if (!Double.TryParse(v, out result))
-                {
-                    variables[i] = _spreadSh.Cells[variables[i]].ToString();
-                }
-            }
         }
 
         private void CreateNotation(List<string> variables, char[] operators)
@@ -84,16 +50,11 @@ namespace SpreadSheetApp
             }
         }
 
-        public void ConvertToReversePolishNotation(string equation)
+        public void ConvertToReversePolishNotation(Equation equation)
         {
-            var variables = GetVariables(equation);
-            var operators = GetOperators(equation);
+            var variables = equation.Variables;
+            var operators = equation.Operators;
 
-            if (equation.StartsWith("-"))
-            {
-                variables.RemoveAt(0);
-                variables.Insert(0, "0");
-            }
             CreateNotation(variables, operators);
             
             while (stack.Count != 0)
@@ -140,7 +101,7 @@ namespace SpreadSheetApp
             return result;
         }
 
-        public double CalculateEquation(string equation)
+        public double CalculateEquation(Equation equation)
         {
             ConvertToReversePolishNotation(equation);
             var computeStack = new Stack();
@@ -158,7 +119,6 @@ namespace SpreadSheetApp
                     computeStack.Push(result);
                 }
             }
-//            Console.WriteLine($"Your result is: {computeStack.Pop()}");
             return double.Parse(computeStack.Pop().ToString()); 
         }
     }

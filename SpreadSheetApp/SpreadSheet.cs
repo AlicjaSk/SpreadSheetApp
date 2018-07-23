@@ -13,11 +13,9 @@ namespace SpreadSheetApp
         private int CurrentRow = 1;
         public Dictionary<string, double> Cells { get; set; }
         private readonly char[] _supportedOperators = Globals.SupportedOperators.Keys.ToArray();
-        private readonly Calculator _calculator;
         public SpreadSheet()
         {
             this.Cells = new Dictionary<string, double>();
-            _calculator = new Calculator(this);
         }
 
 
@@ -39,12 +37,11 @@ namespace SpreadSheetApp
             for (var i = 0; i < variables.Length; i++)
             {
                 var v = variables[i];
-                if (!Double.TryParse(v, out result))
+                if (!TryParse(v, out result))
                 {
                     variables[i] = Cells[v].ToString();
                 }
             }
-//            equation = variables.Join
         }
         
         public void AppendNewRow(string[] arguments)
@@ -55,8 +52,9 @@ namespace SpreadSheetApp
                 var key = currentColumn + CurrentRow.ToString();
                 if (this.IsEquation(arg))
                 {
-                    ReplaceVariables(arg);
-                    var result = _calculator.Calculate(arg);
+                    var eq = new Equation(arg, this);
+                    var reversePolishNotation = new ReversePolishNotation(this);
+                    var result = reversePolishNotation.CalculateEquation(eq);
                     this.Cells.Add(key, result);
                 }
                 else

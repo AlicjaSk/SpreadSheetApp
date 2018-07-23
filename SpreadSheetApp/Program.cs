@@ -10,7 +10,6 @@ namespace SpreadSheetApp
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
             var userMenu = new UserMenu();
             userMenu.StartReading();
             Console.ReadKey();
