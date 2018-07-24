@@ -74,6 +74,13 @@ namespace SpreadSheetApp
             }
         }
 
+        private static double DivideNumbers(double a, double b)
+        {
+            if (a != 0)
+                return b / a;
+            throw new ValidationException("You cannot divide by zero!");
+        }
+
         private double CalculateSingleExpression(double a, double b, char oper)
         {
             double result = 0;
@@ -89,7 +96,7 @@ namespace SpreadSheetApp
                     result = b * a;
                     break;
                 case '/':
-                    result = b / a;
+                    result = DivideNumbers(a, b);
                     break;
             }
 
