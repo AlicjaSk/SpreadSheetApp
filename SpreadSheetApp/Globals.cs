@@ -16,5 +16,8 @@ namespace SpreadSheetApp
             {'*', 2},
             {'/', 2}
         };
+
+        public const string EndOfSheet = ";";
+        public const char InputSeparator = '|';
     }
 }

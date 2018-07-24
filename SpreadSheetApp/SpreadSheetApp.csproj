@@ -49,7 +49,8 @@
     <Compile Include="ReversePolishNotation.cs" />
     <Compile Include="SpreadSheet.cs" />
     <Compile Include="UserMenu.cs" />
-    <Compile Include="ValidationException.cs" />
+    <Compile Include="Validators\ValidationException.cs" />
+    <Compile Include="Validators\Validator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -18,7 +18,6 @@ namespace SpreadSheetApp
             this.Cells = new Dictionary<string, double>();
         }
 
-
         private bool IsEquation(string line)
         {
             // implication p=>q in c# is !p | q
@@ -33,15 +32,35 @@ namespace SpreadSheetApp
         private void ReplaceVariables(string equation)
         {
             var variables = equation.Split(_supportedOperators);
-            double result;
             for (var i = 0; i < variables.Length; i++)
             {
                 var v = variables[i];
-                if (!TryParse(v, out result))
+                if (!TryParse(v, out _))
                 {
                     variables[i] = Cells[v].ToString();
                 }
             }
+        }
+
+        private void AppendNumber(string key, string arg)
+        {
+            try
+            {
+                var number = Parse(arg);
+                this.Cells.Add(key, number);
+            }
+            catch (FormatException)
+            {
+                throw new ValidationException($"Argument : {arg} is not a number!");
+            }
+        }
+
+        private void AppendEquation(string key, string arg)
+        {
+            var eq = new Equation(arg, this);
+            var reversePolishNotation = new ReversePolishNotation(this);
+            var result = reversePolishNotation.CalculateEquation(eq);
+            this.Cells.Add(key, result);
         }
         
         public void AppendNewRow(string[] arguments)
@@ -51,17 +70,9 @@ namespace SpreadSheetApp
             {
                 var key = currentColumn + CurrentRow.ToString();
                 if (this.IsEquation(arg))
-                {
-                    var eq = new Equation(arg, this);
-                    var reversePolishNotation = new ReversePolishNotation(this);
-                    var result = reversePolishNotation.CalculateEquation(eq);
-                    this.Cells.Add(key, result);
-                }
+                    AppendEquation(key, arg);
                 else
-                {
-                    var number = Parse(arg);
-                    this.Cells.Add(key, number);
-                }
+                    AppendNumber(key, arg);
 
                 currentColumn++;
             }

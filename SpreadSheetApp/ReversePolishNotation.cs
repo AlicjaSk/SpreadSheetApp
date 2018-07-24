@@ -59,11 +59,6 @@ namespace SpreadSheetApp
             
             while (stack.Count != 0)
                 AppendNewArgumentToNotation(stack.Pop());
-            foreach (var tmp in _onpArguments)
-            {
-                Console.Write(tmp);
-            }
-            Console.Write("\n");
         }
 
         private static bool IsVariable(object arg)
@@ -108,9 +103,7 @@ namespace SpreadSheetApp
             foreach (var arg in _onpArguments)
             {
                 if (IsVariable(arg))
-                {
                     computeStack.Push(arg);
-                }
                 else
                 {
                     var a = computeStack.Pop();

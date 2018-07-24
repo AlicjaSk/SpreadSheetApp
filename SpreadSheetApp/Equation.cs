@@ -65,13 +65,11 @@ namespace SpreadSheetApp
 
         private void SetVariables()
         {
-            
             var variables = EquationStr.Split(_supportedOperators.Keys.ToArray());
             Variables = new List<string>(variables);
             if (EquationStr.StartsWith("-"))
                 AddZeroAtTheBeginning();
             ReplaceVariablesWithValues();
-
         }
     }
 }
