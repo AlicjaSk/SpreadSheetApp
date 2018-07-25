@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
+using SpreadSheetApp.Validators;
 
 namespace SpreadSheetApp
 {
     class ReversePolishNotation
     {
-        private readonly Stack stack = new Stack();
+        private readonly Stack _stack = new Stack();
 
         private readonly Dictionary<char, int> _supportedOperators = Globals.SupportedOperators;
         private readonly ArrayList _onpArguments;
@@ -29,15 +26,15 @@ namespace SpreadSheetApp
 
         private void CheckPrioritiesOnStack(char newOper)
         {
-            if (stack.Count != 0)
+            if (_stack.Count != 0)
             {
-                var top = (char) stack.Peek();
+                var top = (char) _stack.Peek();
                 if (_supportedOperators[top] >= _supportedOperators[newOper])
                 {
-                    AppendNewArgumentToNotation(stack.Pop());
+                    AppendNewArgumentToNotation(_stack.Pop());
                 }
             }
-            stack.Push(newOper);
+            _stack.Push(newOper);
         }
 
         private void CreateNotation(List<string> variables, char[] operators)
@@ -57,8 +54,8 @@ namespace SpreadSheetApp
 
             CreateNotation(variables, operators);
             
-            while (stack.Count != 0)
-                AppendNewArgumentToNotation(stack.Pop());
+            while (_stack.Count != 0)
+                AppendNewArgumentToNotation(_stack.Pop());
         }
 
         private static bool IsVariable(object arg)

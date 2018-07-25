@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
+using SpreadSheetApp.Validators;
 using static System.Double;
+
 
 namespace SpreadSheetApp
 {
     class SpreadSheet
     {
-        private int CurrentRow = 1;
+        private int _currentRow = 1;
         public Dictionary<string, double> Cells { get; set; }
         private readonly char[] _supportedOperators = Globals.SupportedOperators.Keys.ToArray();
+
         public SpreadSheet()
         {
             this.Cells = new Dictionary<string, double>();
@@ -27,19 +27,6 @@ namespace SpreadSheetApp
             return _supportedOperators.Any(oper => line.Contains(oper)) 
                    && (!line.StartsWith("-") 
                        | numberOfOperators >= numbersOfOperatorsIfNegativesValuesExist);
-        }
-
-        private void ReplaceVariables(string equation)
-        {
-            var variables = equation.Split(_supportedOperators);
-            for (var i = 0; i < variables.Length; i++)
-            {
-                var v = variables[i];
-                if (!TryParse(v, out _))
-                {
-                    variables[i] = Cells[v].ToString();
-                }
-            }
         }
 
         private void AppendNumber(string key, string arg)
@@ -68,7 +55,7 @@ namespace SpreadSheetApp
             var currentColumn = 'A';
             foreach (var arg in arguments)
             {
-                var key = currentColumn + CurrentRow.ToString();
+                var key = currentColumn + _currentRow.ToString();
                 if (this.IsEquation(arg))
                     AppendEquation(key, arg);
                 else
@@ -77,7 +64,7 @@ namespace SpreadSheetApp
                 currentColumn++;
             }
 
-            CurrentRow++;
+            _currentRow++;
         }
 
         public void ShowSpreadSheet()
